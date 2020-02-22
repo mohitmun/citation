@@ -3,6 +3,7 @@ files = `ls spotify_recently_played*`.split("\n")
 @result = {}
 files.each do |file|
   puts "parsing #{file}"
+  begin
   json = JSON.parse(File.read(file, :encoding => 'UTF-8').split("time_namelookup")[0])
   if json["items"]
     json["items"].each do | item|
@@ -10,6 +11,9 @@ files.each do |file|
     end
   else
     puts "ERROR items is nil for #{file}"
+  end
+  rescue
+    puts "FAILED FAILED FAILED"
   end
 end
 f = File.open("final_res.json", "wb")
